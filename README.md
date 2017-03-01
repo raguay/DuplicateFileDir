@@ -13,7 +13,3 @@ Select one or more files or directorys and press **`<shift>+u`**
 ### Features
 
  - Creates a duplicate of the current file or directory.
-
-### Problems
-
-- If you duplicate a directory, delete the duplicate, then try to duplicate it again, python errors out. If you exit fman and relaunch fman, you can duplicate the directory again. I believe it's an issue with Python caching information from the disk. I don't know how to fix it. Anyone have an idea?
