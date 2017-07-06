@@ -1,6 +1,6 @@
 from fman import DirectoryPaneCommand, show_alert
-from distutils.file_util import copy_file
-from shutil import copytree
+import distutils
+from distutils import dir_util, file_util
 import os.path
 
 class DuplicateFileDir(DirectoryPaneCommand):
@@ -18,7 +18,7 @@ class DuplicateFileDir(DirectoryPaneCommand):
                     # It is a directory. Process as a directory.
                     #
                     newDir = filedir + "-copy"
-                    copytree(filedir,newDir)
+                    distutils.dir_util.copy_tree(filedir,newDir)
                 else:
                     #
                     # It is a file. Process as a file.
@@ -26,4 +26,4 @@ class DuplicateFileDir(DirectoryPaneCommand):
                     dirPath, ofilenmc = os.path.split(filedir)
                     ofilenm, ext = os.path.splitext(ofilenmc)
                     nfilenm = os.path.join(dirPath,ofilenm + "-copy" + ext)
-                    copy_file(filedir,nfilenm)
+                    distutils.file_util.copy_file(filedir,nfilenm)
