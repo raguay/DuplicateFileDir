@@ -14,7 +14,7 @@ class DuplicateFileDir(DirectoryPaneCommand):
             #
             for filedir in selected_files:
                 p = as_human_readable(filedir)
-                filepath = os.path.abspath(os.path.join(p.netloc, p.path))
+                filepath = os.path.abspath(p)
                 if os.path.isdir(filepath):
                     #
                     # It is a directory. Process as a directory.
