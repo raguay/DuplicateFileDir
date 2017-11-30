@@ -1,7 +1,7 @@
 from fman import DirectoryPaneCommand, show_alert
-import distutils
-from distutils import dir_util, file_util
+from urllib.parse import urlparse
 import os.path
+from shutil import copytree, copyfile
 
 class DuplicateFileDir(DirectoryPaneCommand):
     def __call__(self):
@@ -13,17 +13,22 @@ class DuplicateFileDir(DirectoryPaneCommand):
             # Loop through each file/directory selected.
             #
             for filedir in selected_files:
-                if os.path.isdir(filedir):
+                p = urlparse(filedir)
+                filepath = os.path.abspath(os.path.join(p.netloc, p.path))
+                if os.path.isdir(filepath):
                     #
                     # It is a directory. Process as a directory.
                     #
-                    newDir = filedir + "-copy"
-                    distutils.dir_util.copy_tree(filedir,newDir)
+                    newDir = filepath + "-copy"
+                    copytree(filepath, newDir)
                 else:
-                    #
-                    # It is a file. Process as a file.
-                    #
-                    dirPath, ofilenmc = os.path.split(filedir)
-                    ofilenm, ext = os.path.splitext(ofilenmc)
-                    nfilenm = os.path.join(dirPath,ofilenm + "-copy" + ext)
-                    distutils.file_util.copy_file(filedir,nfilenm)
+                    if os.path.isfile(filepath):
+                        #
+                        # It is a file. Process as a file.
+                        #
+                        dirPath, ofilenmc = os.path.split(filepath)
+                        ofilenm, ext = os.path.splitext(ofilenmc)
+                        nfilenm = os.path.join(dirPath,ofilenm + "-copy" + ext)
+                        copyfile(filepath, nfilenm)
+                    else:
+                        show_alert('Bad file path : {0}'.format(filepath))
