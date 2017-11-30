@@ -1,5 +1,5 @@
 from fman import DirectoryPaneCommand, show_alert
-from urllib.parse import urlparse
+from fman.url import as_human_readable
 import os.path
 from shutil import copytree, copyfile
 
@@ -13,7 +13,7 @@ class DuplicateFileDir(DirectoryPaneCommand):
             # Loop through each file/directory selected.
             #
             for filedir in selected_files:
-                p = urlparse(filedir)
+                p = as_human_readable(filedir)
                 filepath = os.path.abspath(os.path.join(p.netloc, p.path))
                 if os.path.isdir(filepath):
                     #
