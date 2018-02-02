@@ -2,7 +2,7 @@
 
 Plugin for [fman.io](https://fman.io) to make a duplicate of the current file or directory. The new file or directory will have **-copy** added to it's name.
 
-Install by uploading "DuplicateFileDir" to your [data directory](https://fman.io/docs/customizing-fman)`/Plugins`.
+You can install this plugin using [fman's built-in command for managing plugins](https://fman.io/docs/installing-plugins).
 
 ### Usage
 
