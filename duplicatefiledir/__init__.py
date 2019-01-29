@@ -1,7 +1,7 @@
 from fman import DirectoryPaneCommand, show_alert
-from fman.url import as_human_readable
+from fman.url import as_human_readable, as_url
 import os.path
-from shutil import copytree, copyfile
+from fman.fs import copy
 
 class DuplicateFileDir(DirectoryPaneCommand):
     def __call__(self):
@@ -20,7 +20,7 @@ class DuplicateFileDir(DirectoryPaneCommand):
                     # It is a directory. Process as a directory.
                     #
                     newDir = filepath + "-copy"
-                    copytree(filepath, newDir)
+                    copy(as_url(filepath), as_url(newDir))
                 else:
                     if os.path.isfile(filepath):
                         #
@@ -29,6 +29,6 @@ class DuplicateFileDir(DirectoryPaneCommand):
                         dirPath, ofilenmc = os.path.split(filepath)
                         ofilenm, ext = os.path.splitext(ofilenmc)
                         nfilenm = os.path.join(dirPath,ofilenm + "-copy" + ext)
-                        copyfile(filepath, nfilenm)
+                        copy(as_url(filepath), as_url(nfilenm))
                     else:
                         show_alert('Bad file path : {0}'.format(filepath))
